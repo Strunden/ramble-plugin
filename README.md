@@ -1,5 +1,10 @@
 # Ramble — Claude Code plugin
 
+> **Generated artifact — do not edit here.** This repo is published from the
+> private Ramble app repo via `npm run publish:plugin`. Edit the plugin
+> (skill, commands, MCP) there; changes land here on publish.
+
+
 Author full presentation videos from Claude Code. You write (or have Claude draft)
 a script; Claude cuts it into beats, designs on-brand slides anchored to the spoken
 words, and Ramble renders a finished ~3-minute video with an AI voiceover — which
