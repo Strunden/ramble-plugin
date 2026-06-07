@@ -30108,10 +30108,9 @@ var RAMBLE_BASE = process.env.RAMBLE_BASE_URL || "http://localhost:3456";
 var UPLOADS_DIR = join(import.meta.dirname, "uploads");
 async function rambleAPI(path, options = {}) {
   const url2 = `${RAMBLE_BASE}${path}`;
-  const res = await fetch(url2, {
-    headers: { "Content-Type": "application/json", ...options.headers },
-    ...options
-  });
+  const headers = { "Content-Type": "application/json", ...options.headers };
+  if (process.env.RAMBLE_TOKEN) headers["Authorization"] = `Bearer ${process.env.RAMBLE_TOKEN}`;
+  const res = await fetch(url2, { ...options, headers });
   const body = await res.json();
   if (!res.ok) {
     throw new Error(body.error || `API error ${res.status}: ${JSON.stringify(body)}`);
