@@ -1,0 +1,157 @@
+{
+  "version": "1.1.0",
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "aspect": "16:9",
+    "note": "Every exemplar is authored at this native size. The renderer paints brand bg behind the fragment then scales the 1920x1080 inner stage to fit, so each exemplar paints its OWN background too."
+  },
+  "render_contract": {
+    "self_contained": "One fragment, inline <style> only. No external <link> stylesheets — they do not load in any of the 3 render paths.",
+    "fonts": "Only Inter, Inter Tight, IBM Plex Serif are safe — the EXPORT renderer (Remotion) now registers all three, so font-family references resolve in the MP4. Still @import them in <style> for live-preview parity. ALWAYS end every `font:` shorthand with a generic fallback (…, sans-serif / …, serif) so a missing weight degrades gracefully instead of falling back to the browser default serif.",
+    "animation": "CSS @keyframes entrance animations play in live preview but NOT in the exported video — export captures a single settled frame, so author every slide to look complete at rest. Never rely on an animation to reveal content. Because slides are static there are NO animation cues: do not think in terms of a trigger word, and the editor no longer highlights one.",
+    "coverage": "COVER THE WHOLE SCRIPT, EDGE TO EDGE. A slide OWNS its whole segment (a segment = a paragraph, blank-line separated): at render each slide is snapped to span its entire paragraph's words and time, and paragraphs tile the script — so ONE SLIDE PER PARAGRAPH = contiguous coverage, no gaps in the video OR the editor's range highlight. Rules: (1) author exactly one slide per paragraph; (2) to give a beat its own slide, make it its own paragraph — that is how you control granularity (more slides = more paragraphs); (3) anchor each slide with any phrase from its paragraph (it gets widened to the whole paragraph). NEVER leave a paragraph without a slide unless the user EXPLICITLY wants to drop other source material (a clip/photo) into that stretch in the editor — an empty paragraph renders as blank video. Do not put 2+ slides in one paragraph (they overlap). ramble_render reports uncovered and double-anchored paragraphs; aim for 'N / N segments, edge-to-edge ✓'.",
+    "script_inert": "<script> never executes. All motion is CSS @keyframes only. Any auto-fit/measure must be pre-sized in the static HTML.",
+    "images": "data-URI or a /uploads URL only (via ramble_add_media). External http(s) image URLs resolve at author time but vanish at MP4 export.",
+    "root": "Root element is position:relative or absolute, width:1920px;height:1080px, sets its own background.",
+    "colors": "Use only the v10 token hexes below; derive tints with color-mix(in srgb, <token> N%, #FBFAF7). Never invent a hex.",
+    "overflow": "The stage is overflow:hidden — anything past 1080px is SILENTLY CLIPPED. Budget ~120px margins; the screenshot harness masks overflow, so trust the design.md self-check, not a clean screenshot."
+  },
+  "tokens": {
+    "paper": "#FFFFFF",
+    "bg": "#FBFAF7",
+    "rule": "#E5E5E5",
+    "ink": "#1A1A1A",
+    "ink-muted": "#6B6B6B",
+    "ink-faint": "#9A9A9A",
+    "accent": "#3B5BDB",
+    "accent-soft": "color-mix(in srgb, #3B5BDB 8%, #FBFAF7)",
+    "accent-2": "#C97A3B",
+    "accent-3": "#2E8B7A",
+    "accent-4": "#8B5BC9",
+    "display-font": "'Inter Tight', 'Inter', sans-serif",
+    "ui-font": "'Inter', system-ui, sans-serif",
+    "serif-font": "'IBM Plex Serif', Charter, Georgia, serif"
+  },
+  "accent_rule": "Accent (#3B5BDB) marks the single most important IDEA on the slide (the winning column, the current phase, the chosen card, the key phrase) and MAY repeat within that ONE idea — but never lands on a second, unrelated thing. Gray everything else (Cole-Nussbaumer). Do NOT read this as 'exactly one blue mark per slide'.",
+  "cards_rule": "Flat-first, but tasteful cards are allowed when they do real work (a recommended tier, a callout, a diagram node, an image frame): a filled tint panel or hairline-framed card with a 10-12px radius is fine. Still banned: drop shadows / glow / gradient meshes / glass / blur / noise / blobs / a second hue.",
+  "image_contract": "Every <img> is a swappable slot: it carries data-slot=\"image-N\", a sibling <!-- SWAP image-N: ... --> marker, a real alt, a fixed-aspect frame, and object-fit:cover. The DEFAULT content is a tasteful FLAT inline-SVG mock data-URI (never an empty box) so the slide renders complete before a real image lands. To swap: replace the <img>'s src with a data-URI (preferred, export-safe) or a /uploads URL via ramble_add_media. NEVER hotlink a remote http(s) URL — it vanishes at MP4 export.",
+  "how_to_use": "Map the SCRIPT MOMENT (what the voiceover is doing right now) to ONE exemplar via `pick_when` / `moment_phrases`. Read ONLY that file, copy it, replace text inside [SLOT] markers, swap any image slots per the image_contract, delete optional blocks per the file's ADAPT header, strip the comment, send via ramble_create_html_slide(projectId, html, phrase). Never start from a blank canvas. Re-pick a different exemplar rather than patching one with ad-hoc CSS.",
+  "exemplars": [
+    {
+      "id": "title",
+      "file": "title.html",
+      "job": "Cover the ramble (or open a chapter): name the thing + a one-line serif frame.",
+      "pick_when": "The first slide, or a per-chapter cover for a long ramble.",
+      "slots": ["kicker (optional)", "title", "subline"],
+      "moment_phrases": ["today I want to walk you through", "this is", "let's talk about", "in this review", "quick walkthrough of"],
+      "maps_to_layout": "section-divider"
+    },
+    {
+      "id": "definition",
+      "file": "definition.html",
+      "job": "Install a term: sans term + italic serif qualifier + accent rule + serif explanation.",
+      "pick_when": "You introduce jargon, a coined name, or a precise concept the audience must hold.",
+      "slots": ["term", "qualifier", "explanation"],
+      "moment_phrases": ["what I mean by", "we call this", "the term for", "is defined as", "think of it as"],
+      "maps_to_layout": "definition"
+    },
+    {
+      "id": "feature-spotlight",
+      "file": "feature-spotlight.html",
+      "job": "Explain ONE feature in depth: kicker + name + serif benefit blurb + optional framed screenshot.",
+      "pick_when": "The voiceover spends real narration on a single capability and what it's for.",
+      "slots": ["kicker", "name", "description", "screenshot (optional figure column, image-1)"],
+      "image_slots": ["image-1 (optional)"],
+      "moment_phrases": ["the way this works is", "what this does is", "the key capability here", "here's the feature", "so this lets you"],
+      "maps_to_layout": "feature-spotlight"
+    },
+    {
+      "id": "comparison-table",
+      "file": "comparison-table.html",
+      "job": "Options x criteria matrix with EXACTLY ONE winner column tinted. The decision slide.",
+      "pick_when": "Build-vs-buy, us-vs-them, A/B/C — the script weighs alternatives and lands on one.",
+      "slots": ["title", "option headers (2-4)", "criteria rows (3-6)", "winner column (.win)"],
+      "moment_phrases": ["we evaluated", "the options were", "compared to", "we chose", "the tradeoff is", "versus"],
+      "maps_to_layout": "comparison-table"
+    },
+    {
+      "id": "tiers",
+      "file": "tiers.html",
+      "job": "Make packaging legible: 2-3 plan columns, price as hero, EXACTLY ONE recommended.",
+      "pick_when": "You explain plans, editions, or scope tiers.",
+      "slots": ["title (optional)", "2-3 tiers (name, price, period, 3-5 features)", "recommended tier (.rec)"],
+      "moment_phrases": ["our plans", "the pricing", "at the team tier", "for enterprise", "recommended plan"],
+      "maps_to_layout": "tiers"
+    },
+    {
+      "id": "architecture",
+      "file": "architecture.html",
+      "job": "C4-style boxes + CSS arrows showing how the system fits together. The eng-RFC core.",
+      "pick_when": "You describe components, data flow, or a proposed change.",
+      "slots": ["title", "kicker", "3-5 box labels", "flow labels", "hot box (.hot)"],
+      "moment_phrases": ["the architecture", "data flows from", "three components", "how it fits together", "the pipeline"],
+      "maps_to_layout": "feature-grid (no true diagram built-in; HTML exemplar is the only good path)"
+    },
+    {
+      "id": "timeline",
+      "file": "timeline.html",
+      "job": "Phased rollout along one horizontal axis: where we are now and what lands next, phase by phase. The calm Linear-roadmap opener.",
+      "pick_when": "A rollout / GA plan / migration where the narration walks left-to-right through 3-4 phases ('here's the path').",
+      "slots": ["title", "3-4 phases (when label + scope line)", "current/next phase (.now, EXACTLY ONE)"],
+      "moment_phrases": ["here's the path", "the rollout", "phase one", "where we are now", "what ships next", "the roadmap", "over the next", "by Q3"],
+      "maps_to_layout": "(html-only; no built-in)"
+    },
+    {
+      "id": "screenshot-frame",
+      "file": "screenshot-frame.html",
+      "job": "Let the UI be the evidence: framed screenshot on paper + one accent callout pointing at ONE spot.",
+      "pick_when": "'Here's what it actually looks like' and you point at a single region (demo proof, one-spot callout).",
+      "slots": ["screenshot (image-1)", "caption", "callout (optional)"],
+      "image_slots": ["image-1"],
+      "moment_phrases": ["here's what it looks like", "you can see", "on screen", "the actual UI", "let me show you"],
+      "maps_to_layout": "fill-the-frame"
+    },
+    {
+      "id": "annotated-screenshot",
+      "file": "annotated-screenshot.html",
+      "job": "Framed screenshot with 2-4 numbered accent pins pointing at the exact UI regions the narration names. The designer mock-walkthrough core slide.",
+      "pick_when": "The voiceover tours ONE interface and calls out a SET of specific regions ('the sidebar moves, the toolbar collapses, the canvas grows'). Use screenshot-frame instead for a single spot.",
+      "slots": ["kicker", "head (1-5 words)", "sub (serif line)", "2-4 numbered pins + matching legend rows", "screenshot (image-shot)"],
+      "image_slots": ["image-shot"],
+      "moment_phrases": ["here's the screen", "three changes", "a few things changed", "notice the", "walk you around", "two spots", "the sidebar moves"],
+      "maps_to_layout": "fill-the-frame"
+    },
+    {
+      "id": "full-image",
+      "file": "full-image.html",
+      "job": "The image IS the slide: a single edge-to-edge visual with one short caption on a soft corner plate, so it reads as a finished frame.",
+      "pick_when": "The narration hands the moment entirely to one visual ('just look at this', 'just watch'). The picture carries the idea; words step back.",
+      "slots": ["kicker (optional)", "caption", "full-bleed image (image-1)"],
+      "image_slots": ["image-1"],
+      "moment_phrases": ["just look at this", "just watch", "here it is", "take a look", "this is it", "see for yourself"],
+      "maps_to_layout": "fill-the-frame"
+    },
+    {
+      "id": "media-row",
+      "file": "media-row.html",
+      "job": "2-3 swappable image cards side by side, each a fixed-aspect frame + short caption, ONE marked as the pick. The 'options / iterations / directions' slide.",
+      "pick_when": "The narration lays several visuals next to each other ('three directions we explored', 'the iterations', 'old mock vs new') and lands on one.",
+      "slots": ["title (1-5 words)", "2-3 cards (image + caption)", "chosen card (.is-pick, EXACTLY ONE)"],
+      "image_slots": ["image-1", "image-2", "image-3"],
+      "moment_phrases": ["three directions", "the options we explored", "the iterations", "side by side", "old versus new", "we landed on"],
+      "maps_to_layout": "(html-only; no built-in)"
+    }
+  ],
+  "built_in_layouts_for_reference": "These exist as built-in non-HTML layouts (slide-html.js / slide-preview.js / Slide.jsx): mega-stat, word-bomb, vs-split, mega-quote, numbered, point, before-after, fill-the-frame, chart-bar, section-divider, feature-spotlight, feature-grid, tiers, comparison-table, definition. Each authored exemplar here is the high-quality, v10-on-brand HTML twin of a job — prefer the exemplar; the built-in is the quick auto-gen fallback.",
+  "jobs_without_authored_exemplar": [
+    {"job": "section break / chapter divider", "use_built_in_layout": "section-divider", "moment_phrases": ["now let's look at", "moving on to", "next,", "switching to"]},
+    {"job": "agenda / what we'll cover", "use_built_in_layout": "numbered", "moment_phrases": ["here's what we'll cover", "three things", "the plan is"]},
+    {"job": "one big number", "use_built_in_layout": "mega-stat", "moment_phrases": ["percent", "x faster", "we cut", "we grew", "by the numbers"]},
+    {"job": "breadth of capabilities", "use_built_in_layout": "feature-grid", "moment_phrases": ["it also", "on top of that", "a few things it does"]},
+    {"job": "old way vs new way reframe", "use_built_in_layout": "before-after", "moment_phrases": ["used to", "instead of", "today you", "the old way"]},
+    {"job": "borrowed-authority quote", "use_built_in_layout": "mega-quote", "moment_phrases": ["one customer told us", "as the CEO put it", "in their words"]},
+    {"job": "land the one takeaway", "use_built_in_layout": "point", "moment_phrases": ["the one thing", "so the ask is", "bottom line", "to recap"]}
+  ],
+  "when_no_exemplar_fits": "If a job has no authored exemplar yet (see jobs_without_authored_exemplar), fall back to the matching built-in layout via its named layout, OR author from the design.md tokens + boilerplate root. If the new slide is good, promote it into a new exemplar file + a manifest entry so the floor compounds."
+}

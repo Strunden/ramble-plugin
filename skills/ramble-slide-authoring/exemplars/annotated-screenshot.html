@@ -1,0 +1,81 @@
+<!--
+  JOB:   Annotated screenshot — a framed product screenshot with numbered accent
+         pins pointing at the exact UI regions the narration names. The designer
+         mock-walkthrough core slide: "here's the screen, and here are the N spots
+         that changed / matter".
+  WHEN:  The voiceover walks the audience around ONE interface and calls out a small
+         set of specific regions ("the sidebar moves here, the toolbar collapses,
+         the canvas grows"). Use screenshot-frame instead when you're pointing at
+         just ONE spot; use this when there are 2-4 numbered spots to tour.
+  ADAPT: [SLOT] the .as-kicker, the .as-head (1-5 words), the .as-sub serif line,
+         and the .as-pin / .as-leg entries — keep BETWEEN 2 AND 4 pins (drop the
+         extra .as-pin + its .as-leg row together; renumber so they read 1..N).
+         Move a pin by editing its inline top/left (percent of the frame). Each
+         legend row's number must match its pin.
+         IMAGE (data-slot="image-shot"): swap the inline-SVG placeholder for the
+         real screenshot per the SWAP marker — replace the <img>'s src with a
+         data-URI (preferred, export-safe) or a /uploads URL. Keep the .as-frame
+         wrapper + object-fit so it fills the 16:10 slot; nudge object-position if
+         the crop hides a region a pin points at.
+  RULES: (1) The screenshot is the evidence and sits OFF-AXIS (right), framed on a
+             tinted panel with a gray hairline — never raw, never a shadow.
+         (2) ONE accent idea: the numbered pins + their legend numbers (the changes).
+             That is the only blue. The placeholder mock stays gray with only a
+             single faint accent touch so a real image and the pins never fight; once
+             a real screenshot lands, the pins remain the sole accent. Headline ink,
+             sub serif and dim. Keep 2-4 pins or it stops being a tour.
+-->
+<div style="position:relative;width:1920px;height:1080px;background:#FBFAF7;
+  overflow:hidden;font-family:'Inter',system-ui,sans-serif;color:#1A1A1A;
+  -webkit-font-smoothing:antialiased">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&family=IBM+Plex+Serif:ital,wght@0,400;1,400&display=swap');
+  @keyframes as-in{0%{opacity:0;transform:translateY(26px)}100%{opacity:1;transform:none}}
+  @keyframes as-frame{0%{opacity:0;transform:scale(0.986)}100%{opacity:1;transform:none}}
+  @keyframes as-pin{0%{opacity:0;transform:scale(0.6)}100%{opacity:1;transform:none}}
+  @keyframes as-leg{0%{opacity:0;transform:translateX(-14px)}100%{opacity:1;transform:none}}
+  .as-grid{position:absolute;inset:0;display:grid;grid-template-columns:0.72fr 1fr;align-items:center;gap:80px;padding:0 130px}
+  /* Left rail — headline, serif sub, numbered legend keyed to the pins */
+  .as-text{max-width:560px}
+  .as-kicker{display:flex;align-items:center;gap:18px;font-family:'Inter';font-weight:600;font-size:25px;letter-spacing:0.16em;text-transform:uppercase;color:#6B6B6B;margin-bottom:34px;animation:as-in .5s cubic-bezier(.16,1,.3,1) .05s both}
+  .as-kicker::before{content:"";width:58px;height:3px;background:#3B5BDB}
+  .as-head{font-family:'Inter Tight';font-weight:800;font-size:92px;line-height:1.0;letter-spacing:-0.035em;color:#1A1A1A;margin-bottom:30px;animation:as-in .5s cubic-bezier(.16,1,.3,1) .14s both}
+  .as-sub{font-family:'IBM Plex Serif';font-weight:400;font-size:34px;line-height:1.5;color:#6B6B6B;margin-bottom:52px;animation:as-in .5s cubic-bezier(.16,1,.3,1) .22s both}
+  .as-legend{display:flex;flex-direction:column;gap:22px}
+  .as-leg{display:flex;align-items:center;gap:22px;animation:as-leg .5s cubic-bezier(.16,1,.3,1) both}
+  .as-leg:nth-child(1){animation-delay:.46s}.as-leg:nth-child(2){animation-delay:.56s}.as-leg:nth-child(3){animation-delay:.66s}.as-leg:nth-child(4){animation-delay:.76s}
+  .as-num{flex:none;width:46px;height:46px;border-radius:999px;background:#3B5BDB;color:#FFFFFF;font-family:'Inter';font-weight:700;font-size:25px;display:flex;align-items:center;justify-content:center;letter-spacing:0}
+  .as-lbl{font-family:'Inter';font-weight:600;font-size:31px;color:#1A1A1A;letter-spacing:0}
+  /* The framed, off-axis screenshot — fixed 16:10 slot on a tinted panel */
+  .as-stage{position:relative;animation:as-frame .6s cubic-bezier(.16,1,.3,1) .18s both}
+  .as-frame{position:relative;width:100%;aspect-ratio:16/10;background:color-mix(in srgb,#3B5BDB 5%,#FBFAF7);border:1px solid #E5E5E5;border-radius:18px;padding:16px;margin:0}
+  .as-frame img{width:100%;height:100%;display:block;border-radius:10px;border:1px solid #E5E5E5;object-fit:cover;object-position:top center;background:#FFFFFF}
+  /* Pins — the single accent idea. Each sits over a UI region (top/left = % of frame) */
+  .as-pin{position:absolute;width:54px;height:54px;border-radius:999px;background:#3B5BDB;color:#FFFFFF;font-family:'Inter';font-weight:700;font-size:27px;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);box-sizing:border-box;border:4px solid #FBFAF7;animation:as-pin .42s cubic-bezier(.16,1,.3,1) both}
+  .as-pin.p1{top:30%;left:20%;animation-delay:.5s}
+  .as-pin.p2{top:46%;left:64%;animation-delay:.6s}
+  .as-pin.p3{top:74%;left:42%;animation-delay:.7s}
+</style>
+  <div class="as-grid">
+    <div class="as-text">
+      <div class="as-kicker">Designer walkthrough</div>
+      <div class="as-head">Three changes<br>to the editor</div>
+      <div class="as-sub">Same canvas, three moves — each one points at exactly where it lands on screen.</div>
+      <div class="as-legend">
+        <div class="as-leg"><span class="as-num">1</span><span class="as-lbl">Sidebar becomes the transcript spine</span></div>
+        <div class="as-leg"><span class="as-num">2</span><span class="as-lbl">Slide attaches to the phrase</span></div>
+        <div class="as-leg"><span class="as-num">3</span><span class="as-lbl">Record button sits under the words</span></div>
+      </div>
+    </div>
+    <div class="as-stage">
+      <figure class="as-frame">
+        <!-- SWAP image-shot: the real product screenshot (data-URI preferred & export-safe, or /uploads URL). Keep width/height/object-fit so it fills the 16:10 frame; nudge object-position if a pin's region gets cropped. -->
+        <img data-slot="image-shot" alt="Ramble editor — transcript sidebar spine, a slide attached over a highlighted phrase, and the record button beneath the words" src="data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='1180' height='738' viewBox='0 0 1180 738'&gt;&lt;rect width='1180' height='738' fill='%23FFFFFF'/&gt;&lt;rect x='0' y='0' width='1180' height='56' fill='%23FBFAF7'/&gt;&lt;line x1='0' y1='56' x2='1180' y2='56' stroke='%23E5E5E5' stroke-width='1'/&gt;&lt;circle cx='32' cy='28' r='7' fill='%23E5E5E5'/&gt;&lt;circle cx='56' cy='28' r='7' fill='%23E5E5E5'/&gt;&lt;circle cx='80' cy='28' r='7' fill='%23E5E5E5'/&gt;&lt;rect x='440' y='17' width='300' height='22' rx='11' fill='%23F0EFEA'/&gt;&lt;rect x='0' y='56' width='320' height='682' fill='%23FBFAF7'/&gt;&lt;line x1='320' y1='56' x2='320' y2='738' stroke='%23E5E5E5' stroke-width='1'/&gt;&lt;rect x='40' y='104' width='190' height='16' rx='8' fill='%23E9E8E3'/&gt;&lt;rect x='40' y='142' width='236' height='16' rx='8' fill='%23E9E8E3'/&gt;&lt;rect x='40' y='180' width='160' height='16' rx='8' fill='%23E9E8E3'/&gt;&lt;rect x='40' y='230' width='210' height='16' rx='8' fill='%23E9E8E3'/&gt;&lt;rect x='40' y='268' width='250' height='16' rx='8' fill='%23E9E8E3'/&gt;&lt;rect x='392' y='150' width='560' height='22' rx='11' fill='%23E9E8E3'/&gt;&lt;rect x='392' y='196' width='640' height='22' rx='11' fill='%23E9E8E3'/&gt;&lt;rect x='392' y='242' width='320' height='22' rx='11' fill='%23E9E8E3'/&gt;&lt;rect x='372' y='320' width='720' height='240' rx='12' fill='none' stroke='%23E5E5E5' stroke-width='2'/&gt;&lt;rect x='404' y='352' width='240' height='18' rx='9' fill='%23E9E8E3'/&gt;&lt;rect x='404' y='392' width='420' height='14' rx='7' fill='%23EFEEEA'/&gt;&lt;rect x='404' y='420' width='360' height='14' rx='7' fill='%23EFEEEA'/&gt;&lt;rect x='404' y='448' width='300' height='14' rx='7' fill='%23EFEEEA'/&gt;&lt;rect x='486' y='628' width='208' height='56' rx='28' fill='%233B5BDB' opacity='0.14'/&gt;&lt;circle cx='524' cy='656' r='15' fill='%233B5BDB' opacity='0.55'/&gt;&lt;rect x='556' y='648' width='110' height='16' rx='8' fill='%233B5BDB' opacity='0.32'/&gt;&lt;/svg&gt;" />
+        <!-- Pins — keep 2-4. Each .as-pin's number matches a .as-leg row; move it by editing top/left (% of the frame). -->
+        <span class="as-pin p1">1</span>
+        <span class="as-pin p2">2</span>
+        <span class="as-pin p3">3</span>
+      </figure>
+    </div>
+  </div>
+</div>

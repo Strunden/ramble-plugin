@@ -1,0 +1,43 @@
+<!--
+  JOB:   Full-image slide — the image IS the slide. A single edge-to-edge visual
+         (product hero shot, photo, full screenshot) with one short caption laid
+         over a calm corner, so it reads as a finished frame, not a raw paste.
+  WHEN:  The narration hands the moment entirely to one visual ("just look at
+         this"). The picture carries the idea; words step back.
+  ADAPT: [SLOT] the .fi-kicker (optional — delete if mute) and the .fi-cap line.
+         IMAGE (data-slot="image-1"): swap the inline-SVG placeholder for the real
+         full-bleed visual per the SWAP marker — replace the <img>'s src with a
+         data-URI (preferred) or a /uploads URL. Keep object-fit:cover so it fills
+         1920×1080 cleanly at any source aspect.
+  RULES: (1) Truly full-bleed: the image covers the whole 1920×1080 frame, no
+             margins. The caption sits in ONE bottom corner on a soft paper plate
+             so it stays legible over any image — never floating raw on the photo.
+         (2) One accent moment: the caption's kicker rule. No second hue, no
+             scrim gradient mesh, no vignette — just the flat plate.
+-->
+<div style="position:relative;width:1920px;height:1080px;background:#FBFAF7;
+  overflow:hidden;font-family:'Inter',system-ui,sans-serif;color:#1A1A1A;
+  -webkit-font-smoothing:antialiased">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&display=swap');
+  @keyframes fi-img{0%{opacity:0;transform:scale(1.015)}100%{opacity:1;transform:none}}
+  @keyframes fi-plate{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:none}}
+  /* The image fills the entire frame */
+  .fi-stage{position:absolute;inset:0;background:#1A1A1A;animation:fi-img .7s cubic-bezier(.16,1,.3,1) both}
+  .fi-stage img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
+  /* Caption plate — one corner, soft paper, keeps text legible over any image */
+  .fi-plate{position:absolute;left:0;bottom:0;max-width:1040px;background:rgba(251,250,247,0.94);border-top:1px solid #E5E5E5;border-right:1px solid #E5E5E5;border-radius:0 18px 0 0;padding:40px 56px 42px;animation:fi-plate .55s cubic-bezier(.16,1,.3,1) .3s both}
+  .fi-kicker{display:flex;align-items:center;gap:18px;font-family:'Inter';font-weight:600;font-size:24px;letter-spacing:0.16em;text-transform:uppercase;color:#6B6B6B;margin-bottom:18px}
+  .fi-kicker::before{content:"";width:54px;height:3px;background:#3B5BDB}
+  .fi-cap{font-family:'Inter Tight';font-weight:700;font-size:52px;line-height:1.08;letter-spacing:-0.02em;color:#1A1A1A}
+</style>
+  <div class="fi-stage">
+    <!-- SWAP image-1: the full-bleed visual (data-URI preferred, or /uploads URL). object-fit:cover fills 1920×1080 at any source aspect. -->
+    <img data-slot="image-1" alt="The finished ramble playing — a v10 explainer frame on screen" src="data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080' viewBox='0 0 1920 1080'&gt;&lt;rect width='1920' height='1080' fill='%23F4F2EC'/&gt;&lt;rect x='360' y='150' width='1200' height='675' rx='20' fill='%23FFFFFF' stroke='%23E5E5E5' stroke-width='2'/&gt;&lt;rect x='360' y='150' width='1200' height='64' rx='20' fill='%23FBFAF7'/&gt;&lt;rect x='360' y='196' width='1200' height='18' fill='%23FBFAF7'/&gt;&lt;line x1='360' y1='214' x2='1560' y2='214' stroke='%23E5E5E5' stroke-width='1'/&gt;&lt;circle cx='398' cy='182' r='8' fill='%23E5E5E5'/&gt;&lt;circle cx='426' cy='182' r='8' fill='%23E5E5E5'/&gt;&lt;circle cx='454' cy='182' r='8' fill='%23E5E5E5'/&gt;&lt;rect x='440' y='320' width='520' height='40' rx='10' fill='%23E9E8E3'/&gt;&lt;rect x='440' y='384' width='720' height='40' rx='10' fill='%23E9E8E3'/&gt;&lt;rect x='440' y='448' width='400' height='40' rx='10' fill='%233B5BDB' opacity='0.6'/&gt;&lt;circle cx='1300' cy='640' r='96' fill='none' stroke='%233B5BDB' stroke-width='5'/&gt;&lt;rect x='440' y='560' width='280' height='20' rx='10' fill='%23EFEEEA'/&gt;&lt;/svg&gt;" />
+  </div>
+  <!-- DELETE .fi-kicker if the narration doesn't need a label; keep the .fi-cap line -->
+  <div class="fi-plate">
+    <div class="fi-kicker">On screen</div>
+    <div class="fi-cap">The finished ramble,<br>playing</div>
+  </div>
+</div>

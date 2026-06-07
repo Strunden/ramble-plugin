@@ -1,0 +1,74 @@
+<!--
+  JOB:   Comparison / vs — weigh options across criteria so the choice is visible.
+  WHEN:  Build-vs-buy, us-vs-them, option A/B/C. The script weighs alternatives.
+  ADAPT: .title; the column headers; each row's criteria + cells. Set the winning
+         column index by giving its <th>/<td> the class "win". Use ✓ / ✕ glyphs.
+  RULES: (1) Tint exactly ONE column (--accent-soft = the winner) so the eye lands
+             on the recommendation; everything else stays grayscale.
+         (2) Hairlines only, no box fills, direct labels, no legend. ≤4 cols, ≤6
+             rows — if you need more, split into two slides.
+-->
+<div style="position:relative;width:1920px;height:1080px;background:#FBFAF7;
+  overflow:hidden;font-family:'Inter',system-ui,sans-serif;color:#1A1A1A;
+  -webkit-font-smoothing:antialiased">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700&display=swap');
+  @keyframes slide-in{0%{opacity:0;transform:translateX(-40px)}100%{opacity:1;transform:none}}
+  .ct-wrap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 140px}
+  .ct-title{font-family:'Inter Tight';font-weight:700;font-size:84px;letter-spacing:-0.03em;color:#1A1A1A;margin-bottom:56px;animation:slide-in .45s cubic-bezier(.16,1,.3,1) .05s both}
+  table.ct{width:100%;border-collapse:collapse}
+  .ct th,.ct td{text-align:left;padding:26px 32px}
+  .ct thead th{font-size:25px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#9A9A9A;border-bottom:2px solid #E5E5E5}
+  .ct tbody td{font-size:36px;color:#1A1A1A;border-bottom:1px solid #E5E5E5}
+  .ct .crit{color:#6B6B6B;font-weight:500;width:34%}
+  /* The single highlighted (winning) column */
+  .ct .win{background:rgba(59,91,219,0.08)}
+  .ct thead .win{color:#3B5BDB}
+  .ct .yes{color:#3B5BDB;font-weight:700}
+  .ct .no{color:#9A9A9A}
+  .ct tbody tr{animation:slide-in .4s ease both}
+  .ct tbody tr:nth-child(1){animation-delay:.18s}
+  .ct tbody tr:nth-child(2){animation-delay:.26s}
+  .ct tbody tr:nth-child(3){animation-delay:.34s}
+  .ct tbody tr:nth-child(4){animation-delay:.42s}
+</style>
+  <div class="ct-wrap">
+    <div class="ct-title">Build vs. buy vs. <span style="color:#3B5BDB">extend</span></div>
+    <table class="ct">
+      <thead>
+        <tr>
+          <th class="crit"></th>
+          <th>Build in-house</th>
+          <th>Off-the-shelf</th>
+          <th class="win">Extend Ramble</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="crit">Time to first ship</td>
+          <td>6–8 weeks</td>
+          <td>2 weeks</td>
+          <td class="win">3 days</td>
+        </tr>
+        <tr>
+          <td class="crit">On-brand output</td>
+          <td class="yes">✓</td>
+          <td class="no">✕</td>
+          <td class="win yes">✓</td>
+        </tr>
+        <tr>
+          <td class="crit">Owns the editor surface</td>
+          <td class="yes">✓</td>
+          <td class="no">✕</td>
+          <td class="win yes">✓</td>
+        </tr>
+        <tr>
+          <td class="crit">Eng cost to maintain</td>
+          <td>High</td>
+          <td>Low</td>
+          <td class="win">Low</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

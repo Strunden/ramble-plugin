@@ -1,0 +1,80 @@
+<!--
+  JOB:   Timeline / phased rollout — lay a plan along one horizontal axis: where we
+         are now and what lands next, phase by phase. The calm Linear-roadmap opener.
+  WHEN:  The pre-read opener for a rollout, GA plan, or migration ("here's the path").
+         The narration walks left-to-right through 3-4 phases; this is the spine.
+  ADAPT: [SLOT] the .tl-title; each .node's .n-when (the milestone label, sans) and
+         .n-scope (one line of serif prose — what ships then). Mark the current/next
+         phase by adding class "now" to exactly ONE <div class="node"> (and only one).
+         To go 4→3 phases, delete one .node and change .track grid-template-columns
+         to "1fr 1fr 1fr". Cap at 4 — more won't fit the margins.
+  RULES: (1) Exactly ONE accent node = the current/next phase (the "now" node: filled
+             dot + accent label + a small pill). Every other phase is gray hairline,
+             so the eye lands on where we are, not on the whole road. Cole-Nussbaumer.
+         (2) One horizontal track, markers evenly spaced, scope in IBM Plex Serif
+             under each. Calm and inevitable — a roadmap, not a Gantt chart.
+  NOTE:  The track + dots are pure CSS (a hairline rule + bordered circles); <script>
+         is inert. No image needed — this slide is structural.
+-->
+<div style="position:relative;width:1920px;height:1080px;background:#FBFAF7;
+  overflow:hidden;font-family:'Inter',system-ui,sans-serif;color:#1A1A1A;
+  -webkit-font-smoothing:antialiased">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&family=IBM+Plex+Serif:ital,wght@0,400;0,500&display=swap');
+  @keyframes tl-in{0%{opacity:0;transform:translateY(28px)}100%{opacity:1;transform:none}}
+  @keyframes tl-rule{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+  @keyframes tl-node{0%{opacity:0;transform:translateY(18px)}100%{opacity:1;transform:none}}
+  .tl-wrap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 150px}
+  .tl-kicker{display:flex;align-items:center;gap:22px;font-family:'Inter';font-weight:600;font-size:26px;letter-spacing:0.16em;text-transform:uppercase;color:#6B6B6B;margin-bottom:34px;animation:tl-in .5s cubic-bezier(.16,1,.3,1) .05s both}
+  .tl-kicker::before{content:"";width:60px;height:3px;background:#3B5BDB;transform-origin:left;animation:tl-rule .6s cubic-bezier(.16,1,.3,1) .15s both}
+  .tl-title{font-family:'Inter Tight';font-weight:700;font-size:80px;line-height:1.0;letter-spacing:-0.03em;color:#1A1A1A;margin-bottom:120px;animation:tl-in .55s cubic-bezier(.16,1,.3,1) .12s both}
+  /* The horizontal axis: a hairline rule the dots sit on */
+  .track{position:relative;display:grid;grid-template-columns:repeat(4,1fr)}
+  .track::before{content:"";position:absolute;left:0;right:0;top:13px;height:2px;background:#E5E5E5;transform-origin:left;animation:tl-rule .7s cubic-bezier(.16,1,.3,1) .28s both}
+  .node{position:relative;padding-right:64px;animation:tl-node .5s cubic-bezier(.16,1,.3,1) both}
+  .track .node:nth-child(1){animation-delay:.34s}
+  .track .node:nth-child(2){animation-delay:.42s}
+  .track .node:nth-child(3){animation-delay:.50s}
+  .track .node:nth-child(4){animation-delay:.58s}
+  /* Default marker — a gray hairline dot on the track */
+  .dot{width:28px;height:28px;border-radius:50%;background:#FBFAF7;border:2px solid #C9C9C9;box-sizing:border-box}
+  .n-when{font-family:'Inter';font-weight:700;font-size:34px;letter-spacing:-0.005em;color:#6B6B6B;margin-top:42px}
+  .n-scope{font-family:'IBM Plex Serif';font-weight:400;font-size:28px;line-height:1.42;color:#9A9A9A;margin-top:18px;max-width:340px}
+  /* The ONE current/next phase — the accent node, everything else stays gray */
+  .node.now .dot{background:#3B5BDB;border-color:#3B5BDB;box-shadow:0 0 0 6px color-mix(in srgb,#3B5BDB 12%,#FBFAF7)}
+  .node.now .n-when{color:#3B5BDB}
+  .node.now .n-scope{color:#3A3A3A}
+  .n-pill{display:inline-block;background:#3B5BDB;color:#FFFFFF;font-family:'Inter';font-weight:700;font-size:18px;letter-spacing:0.12em;text-transform:uppercase;padding:6px 14px;border-radius:999px;margin-bottom:18px}
+</style>
+  <div class="tl-wrap">
+    <div class="tl-kicker">The rollout</div>
+    <div class="tl-title">The rollout, in four phases</div>
+
+    <div class="track">
+      <div class="node">
+        <div class="dot"></div>
+        <div class="n-when">Now · private beta</div>
+        <div class="n-scope">A handful of design partners shipping real rambles.</div>
+      </div>
+
+      <div class="node now">
+        <div class="dot"></div>
+        <div class="n-pill">Up next</div>
+        <div class="n-when">Q3 · team workspaces</div>
+        <div class="n-scope">Shared brand vault, comments, and the watch page.</div>
+      </div>
+
+      <div class="node">
+        <div class="dot"></div>
+        <div class="n-when">Q4 · general availability</div>
+        <div class="n-scope">Self-serve sign-up, billing, and 1080p export.</div>
+      </div>
+
+      <div class="node">
+        <div class="dot"></div>
+        <div class="n-when">Q1 · template marketplace</div>
+        <div class="n-scope">Brand-native slide packs the whole org can reuse.</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+{
+  "name": "ramble-marketplace",
+  "owner": { "name": "Frank Strunden" },
+  "description": "Ramble — author full presentation videos (script + on-brand slides + AI voiceover) headlessly from Claude.",
+  "plugins": [
+    {
+      "name": "ramble",
+      "source": "./",
+      "description": "Ramble authoring: MCP tools + slide-authoring skill + slash commands against a local Ramble instance.",
+      "category": "productivity",
+      "tags": ["ramble", "video", "slides", "voiceover"],
+      "strict": false
+    }
+  ]
+}

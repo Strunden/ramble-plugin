@@ -1,0 +1,30 @@
+<!--
+  JOB:   Title / cover — set the frame in one breath: what this ramble is + the lens.
+  WHEN:  The first slide. Also a per-chapter cover for a long ramble.
+  ADAPT: [SLOT] the .ti-kicker (context line, optional — delete the div if unused),
+         the .ti-title (the thing, 2-6 words), and the .ti-sub serif frame (one line).
+  RULES: (1) Big editorial title in Inter Tight + a short serif sub-line + lots of
+             air. One accent moment only (the kicker rule OR one accent word in the
+             title — not both). No logo wall, no date/author footer dump.
+         (2) Left-hung off the margin, vertically settled low-center. Calm and
+             deliberate — this is the cover of a thing worth watching, not a template.
+-->
+<div style="position:relative;width:1920px;height:1080px;background:#FBFAF7;
+  overflow:hidden;font-family:'Inter',system-ui,sans-serif;color:#1A1A1A;
+  -webkit-font-smoothing:antialiased">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@600;700;800&family=IBM+Plex+Serif:ital,wght@0,400;1,400&display=swap');
+  @keyframes ti-in{0%{opacity:0;transform:translateY(30px)}100%{opacity:1;transform:none}}
+  @keyframes ti-rule{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+  .ti-wrap{position:absolute;left:150px;right:150px;bottom:170px}
+  .ti-kicker{display:flex;align-items:center;gap:24px;font-family:'Inter';font-weight:600;font-size:28px;letter-spacing:0.18em;text-transform:uppercase;color:#6B6B6B;margin-bottom:46px;animation:ti-in .5s cubic-bezier(.16,1,.3,1) .05s both}
+  .ti-kicker .ti-tick{width:80px;height:3px;background:#3B5BDB;transform-origin:left;animation:ti-rule .6s cubic-bezier(.16,1,.3,1) .15s both}
+  .ti-title{font-family:'Inter Tight';font-weight:800;font-size:168px;line-height:0.98;letter-spacing:-0.045em;color:#1A1A1A;animation:ti-in .55s cubic-bezier(.16,1,.3,1) .18s both}
+  .ti-sub{font-family:'IBM Plex Serif';font-style:italic;font-weight:400;font-size:44px;line-height:1.4;color:#6B6B6B;margin-top:44px;max-width:1180px;animation:ti-in .55s cubic-bezier(.16,1,.3,1) .3s both}
+</style>
+  <div class="ti-wrap">
+    <div class="ti-kicker"><span class="ti-tick"></span>Product review · Q3</div>
+    <div class="ti-title">Slides, without<br>the deck.</div>
+    <div class="ti-sub">How Ramble turns a three-minute take into a finished, on-brand explainer your team actually watches.</div>
+  </div>
+</div>

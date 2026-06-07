@@ -1,0 +1,76 @@
+<!--
+  JOB:   Tiers / pricing — make packaging legible: what you get at each level.
+  WHEN:  You explain plans, editions, or scope tiers (2-3 of them).
+  ADAPT: [SLOT] the .t-title; each column's .t-name, .t-price, .t-period, and its
+         .t-feat list (3-5 items, parallel phrasing). Mark the recommended column by
+         giving its <div class="tier"> the extra class "rec" (and only ONE column
+         gets it). To go from 3 tiers to 2, delete one <div class="tier"> and change
+         .t-grid grid-template-columns to "1fr 1fr".
+  RULES: (1) Exactly ONE recommended tier — accent ring + pill. The other tiers stay
+             grayscale so the eye is guided, not split three ways.
+         (2) Price is each column's hero (Inter Tight). Features are a tight dotted
+             list, never paragraphs. ≤5 features per tier.
+-->
+<div style="position:relative;width:1920px;height:1080px;background:#FBFAF7;
+  overflow:hidden;font-family:'Inter',system-ui,sans-serif;color:#1A1A1A;
+  -webkit-font-smoothing:antialiased">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&display=swap');
+  @keyframes t-in{0%{opacity:0;transform:translateY(34px)}100%{opacity:1;transform:none}}
+  .t-wrap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 130px}
+  .t-title{font-family:'Inter Tight';font-weight:700;font-size:72px;letter-spacing:-0.03em;margin-bottom:56px;animation:t-in .45s cubic-bezier(.16,1,.3,1) .05s both}
+  .t-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:36px}
+  .tier{background:#FFFFFF;border:1px solid #E5E5E5;border-radius:18px;padding:48px 44px;display:flex;flex-direction:column;animation:t-in .5s cubic-bezier(.16,1,.3,1) both}
+  .t-grid .tier:nth-child(1){animation-delay:.16s}
+  .t-grid .tier:nth-child(2){animation-delay:.24s}
+  .t-grid .tier:nth-child(3){animation-delay:.32s}
+  .tier.rec{border:2px solid #3B5BDB;background:color-mix(in srgb,#3B5BDB 5%,#FBFAF7);position:relative}
+  .t-pill{position:absolute;top:-19px;left:44px;background:#3B5BDB;color:#fff;font-weight:700;font-size:18px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 18px;border-radius:999px}
+  .t-name{font-family:'Inter';font-weight:600;font-size:28px;letter-spacing:0.04em;text-transform:uppercase;color:#6B6B6B;margin-bottom:24px}
+  .tier.rec .t-name{color:#3B5BDB}
+  .t-price{font-family:'Inter Tight';font-weight:800;font-size:84px;line-height:1;letter-spacing:-0.04em;color:#1A1A1A}
+  .t-period{font-family:'Inter';font-weight:500;font-size:26px;color:#9A9A9A;margin:10px 0 36px}
+  .t-feat{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:20px}
+  .t-feat li{font-size:30px;line-height:1.3;color:#3A3A3A;padding-left:38px;position:relative}
+  .t-feat li::before{content:"";position:absolute;left:0;top:14px;width:14px;height:14px;border-radius:50%;background:#E5E5E5}
+  .tier.rec .t-feat li::before{background:#3B5BDB}
+</style>
+  <div class="t-wrap">
+    <div class="t-title">Pick the plan that fits the team</div>
+    <div class="t-grid">
+      <div class="tier">
+        <div class="t-name">Solo</div>
+        <div class="t-price">Free</div>
+        <div class="t-period">1 editor, watermark</div>
+        <ul class="t-feat">
+          <li>Unlimited rambles</li>
+          <li>HTML slide library</li>
+          <li>720p export</li>
+        </ul>
+      </div>
+      <div class="tier rec">
+        <div class="t-pill">Recommended</div>
+        <div class="t-name">Team</div>
+        <div class="t-price">$24</div>
+        <div class="t-period">per editor / month</div>
+        <ul class="t-feat">
+          <li>Everything in Solo</li>
+          <li>Brand vault + shared fonts</li>
+          <li>1080p, no watermark</li>
+          <li>Watch page + comments</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <div class="t-name">Enterprise</div>
+        <div class="t-price">Custom</div>
+        <div class="t-period">SSO + security review</div>
+        <ul class="t-feat">
+          <li>Everything in Team</li>
+          <li>SAML / SSO</li>
+          <li>Private deployment</li>
+          <li>Priority support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

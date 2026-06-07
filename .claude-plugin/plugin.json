@@ -1,0 +1,16 @@
+{
+  "name": "ramble",
+  "displayName": "Ramble Authoring",
+  "version": "0.1.0",
+  "description": "Author Ramble videos headlessly from Claude: re-anchor script to stable word-IDs, draft on-brand HTML slides (v10 design system + exemplar library), generate AI voiceover, and review a project — all against a local Ramble instance.",
+  "author": { "name": "Frank Strunden" },
+  "keywords": ["ramble", "video", "slides", "voiceover", "presentation"],
+  "skills": "./skills/",
+  "commands": "./commands/",
+  "mcpServers": {
+    "ramble": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp-server.bundle.mjs"]
+    }
+  }
+}

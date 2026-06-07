@@ -1,0 +1,73 @@
+<!--
+  JOB:   Architecture / diagram — show how the system fits together (eng RFC core).
+  WHEN:  The script describes components, data flow, or a proposed change. The most
+         information-dense slide; also the one most likely to get busy.
+  ADAPT: .arch-title; the box labels + sublabels; which ONE box gets class "hot"
+         (the component the narration is about right now); the flow labels. Keep
+         to ≤7 boxes — more = split into two diagrams.
+  RULES: (1) Highlight in --accent the ONE box the narration is about; every other
+             box is a gray hairline outline. Gray the supporting cast ruthlessly.
+         (2) Arrows show one clear flow direction; every box is labeled; the
+             diagram has a title. C4-style boxes, no skeuomorphism.
+  NOTE:  Arrows are pure CSS (a hairline + a triangle) since <script> is inert.
+-->
+<div style="position:relative;width:1920px;height:1080px;background:#FBFAF7;
+  overflow:hidden;font-family:'Inter',system-ui,sans-serif;color:#1A1A1A;
+  -webkit-font-smoothing:antialiased">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700&display=swap');
+  @keyframes drop{0%{opacity:0;transform:translateY(-24px)}100%{opacity:1;transform:none}}
+  @keyframes slide-in{0%{opacity:0;transform:translateX(-40px)}100%{opacity:1;transform:none}}
+  .arch-title{position:absolute;top:96px;left:140px;font-family:'Inter Tight';font-weight:700;font-size:64px;letter-spacing:-0.025em;color:#1A1A1A;animation:slide-in .45s cubic-bezier(.16,1,.3,1) .05s both}
+  .arch-sub{position:absolute;top:176px;left:140px;font-size:26px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#9A9A9A;animation:slide-in .4s ease .15s both}
+  .stage{position:absolute;left:140px;right:140px;top:330px;display:flex;align-items:center;justify-content:space-between}
+  /* A C4 "container" box — gray outline by default */
+  .box{flex:0 0 360px;background:#FFFFFF;border:2px solid #E5E5E5;border-radius:12px;
+    padding:38px 36px;animation:drop .45s cubic-bezier(.16,1,.3,1) both}
+  .box .name{font-family:'Inter Tight';font-weight:700;font-size:42px;letter-spacing:-0.01em;color:#1A1A1A}
+  .box .desc{font-size:26px;line-height:1.4;color:#6B6B6B;margin-top:14px}
+  .box .tag{font-size:21px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#9A9A9A;margin-bottom:16px}
+  /* The ONE box the narration is about */
+  .box.hot{border-color:#3B5BDB;box-shadow:0 0 0 4px rgba(59,91,219,0.08)}
+  .box.hot .name{color:#3B5BDB}
+  .box.hot .tag{color:#3B5BDB}
+  /* CSS arrow connector */
+  .arrow{flex:1;position:relative;height:2px;background:#C9C9C9;margin:0 -4px}
+  .arrow::after{content:"";position:absolute;right:-2px;top:-6px;border-left:14px solid #C9C9C9;border-top:7px solid transparent;border-bottom:7px solid transparent}
+  .arrow .lbl{position:absolute;left:50%;top:-44px;transform:translateX(-50%);white-space:nowrap;font-size:22px;font-weight:600;color:#6B6B6B;background:#FBFAF7;padding:0 12px}
+  .box:nth-of-type(1){animation-delay:.18s}
+  .stage .box:nth-child(3){animation-delay:.30s}
+  .stage .box:nth-child(5){animation-delay:.42s}
+  .footnote{position:absolute;left:140px;bottom:110px;font-size:28px;color:#6B6B6B}
+  .footnote b{color:#3B5BDB;font-weight:600}
+</style>
+  <div class="arch-title">How a ramble renders</div>
+  <div class="arch-sub">One slideSpec, three render paths</div>
+
+  <div class="stage">
+    <div class="box">
+      <div class="tag">Author</div>
+      <div class="name">Agent (MCP)</div>
+      <div class="desc">Writes an HTML slide over a phrase in the script.</div>
+    </div>
+
+    <div class="arrow"><span class="lbl">slideSpec</span></div>
+
+    <div class="box hot">
+      <div class="tag">Single source</div>
+      <div class="name">slideSpec</div>
+      <div class="desc">layout: html · content · stylePack — the one shared spec.</div>
+    </div>
+
+    <div class="arrow"><span class="lbl">isomorphic render</span></div>
+
+    <div class="box">
+      <div class="tag">Output · ×3</div>
+      <div class="name">Preview · Server · MP4</div>
+      <div class="desc">slide-preview.js, slide-html.js, Slide.jsx — pixel-identical.</div>
+    </div>
+  </div>
+
+  <div class="footnote">The same spec renders in all three paths, so what you
+    preview is exactly what <b>exports</b>.</div>
+</div>

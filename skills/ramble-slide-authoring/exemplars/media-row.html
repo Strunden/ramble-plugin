@@ -1,0 +1,92 @@
+<!--
+  JOB:   Media row — a set of visuals side by side. 2-3 swappable image cards in a
+         row, each a fixed-aspect frame with a short caption below. The "here are the
+         options / the iterations / before-and-after directions" slide.
+  WHEN:  The narration lays several visuals next to each other ("three directions we
+         explored", "the iterations", "old mock vs new mock") and lands on one of them.
+  ADAPT: [SLOT] the .mr-title (1-5 words) and each card's .mr-cap caption.
+         IMAGE (data-slot="image-1..3"): swap each inline-SVG placeholder for the real
+         visual per its SWAP marker — replace the <img>'s src with a data-URI
+         (preferred) or a /uploads URL, and update alt. Keep the .mr-frame wrapper +
+         object-fit so any source aspect fills the card cleanly.
+         To go from 3 cards to 2: delete one <figure class="mr-card"> and change
+         .mr-row grid-template-columns to "1fr 1fr".
+  RULES: (1) ONE accent moment: the chosen/recommended card gets class "is-pick" — its
+             caption goes accent + a small kicker rule, the others stay gray. Exactly
+             ONE card may be the pick; never two blues.
+         (2) Cap at 3 cards so it fits 1920×1080 (the stage clips silently past 1080).
+             Captions are short sans, one line. The frames stay gray hairline on tint.
+-->
+<div style="position:relative;width:1920px;height:1080px;background:#FBFAF7;
+  overflow:hidden;font-family:'Inter',system-ui,sans-serif;color:#1A1A1A;
+  -webkit-font-smoothing:antialiased">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&display=swap');
+  @keyframes mr-in{0%{opacity:0;transform:translateY(28px)}100%{opacity:1;transform:none}}
+  @keyframes mr-card{0%{opacity:0;transform:translateY(36px) scale(0.985)}100%{opacity:1;transform:none}}
+  .mr-wrap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 140px}
+  .mr-kicker{display:inline-flex;align-items:center;gap:20px;font-family:'Inter';font-weight:600;font-size:26px;letter-spacing:0.16em;text-transform:uppercase;color:#6B6B6B;margin-bottom:30px;animation:mr-in .5s cubic-bezier(.16,1,.3,1) .04s both}
+  .mr-kicker::before{content:"";width:64px;height:3px;background:#3B5BDB;display:inline-block}
+  .mr-title{font-family:'Inter Tight';font-weight:800;font-size:84px;line-height:1.0;letter-spacing:-0.035em;color:#1A1A1A;margin-bottom:64px;animation:mr-in .5s cubic-bezier(.16,1,.3,1) .12s both}
+  .mr-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:56px;align-items:start}
+  .mr-card{margin:0;display:flex;flex-direction:column;animation:mr-card .55s cubic-bezier(.16,1,.3,1) both}
+  .mr-row .mr-card:nth-child(1){animation-delay:.22s}
+  .mr-row .mr-card:nth-child(2){animation-delay:.30s}
+  .mr-row .mr-card:nth-child(3){animation-delay:.38s}
+  /* The fixed 16:9 frame — gray hairline on a tinted panel; the image is the hero */
+  .mr-frame{position:relative;width:100%;aspect-ratio:16/9;background:color-mix(in srgb,#3B5BDB 5%,#FBFAF7);border:1px solid #E5E5E5;border-radius:16px;padding:14px}
+  .mr-frame img{width:100%;height:100%;display:block;border-radius:8px;border:1px solid #E5E5E5;object-fit:cover;object-position:top center;background:#FFFFFF}
+  /* The chosen card: accent ring instead of gray, so the eye knows which one shipped */
+  .mr-card.is-pick .mr-frame{border:2px solid #3B5BDB;background:color-mix(in srgb,#3B5BDB 7%,#FBFAF7)}
+  /* Caption block under each frame */
+  .mr-cap{margin-top:24px;font-family:'Inter';font-weight:600;font-size:30px;line-height:1.18;letter-spacing:0.01em;color:#9A9A9A}
+  .mr-sub{margin-top:8px;font-family:'Inter';font-weight:500;font-size:23px;line-height:1.3;color:#9A9A9A}
+  /* The ONE accent caption — only the picked card; small kicker rule + accent ink */
+  .mr-card.is-pick .mr-cap{color:#3B5BDB;display:flex;align-items:center;gap:16px}
+  .mr-card.is-pick .mr-cap::before{content:"";width:34px;height:3px;background:#3B5BDB;flex:none}
+  .mr-card.is-pick .mr-sub{color:#6B6B6B}
+</style>
+  <div class="mr-wrap">
+    <div class="mr-kicker">Directions</div>
+    <div class="mr-title">Three directions we explored</div>
+    <div class="mr-row">
+
+      <!-- ── Card 1 ───────────────────────────────────────────────────────── -->
+      <figure class="mr-card">
+        <div class="mr-frame">
+          <!-- SWAP image-1: first direction mock (data-URI preferred, or /uploads URL). object-fit:cover fills the 16:9 card. -->
+          <img data-slot="image-1"
+            alt="Direction one — sidebar-led layout with a dense list view"
+            src="data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='960' height='540' viewBox='0 0 960 540'&gt;&lt;rect width='960' height='540' fill='%23FFFFFF'/&gt;&lt;rect x='0' y='0' width='960' height='52' fill='%23FBFAF7'/&gt;&lt;line x1='0' y1='52' x2='960' y2='52' stroke='%23E5E5E5' stroke-width='1'/&gt;&lt;circle cx='28' cy='26' r='6' fill='%23E5E5E5'/&gt;&lt;circle cx='48' cy='26' r='6' fill='%23E5E5E5'/&gt;&lt;circle cx='68' cy='26' r='6' fill='%23E5E5E5'/&gt;&lt;rect x='0' y='52' width='260' height='488' fill='%23FBFAF7'/&gt;&lt;line x1='260' y1='52' x2='260' y2='540' stroke='%23E5E5E5' stroke-width='1'/&gt;&lt;rect x='34' y='96' width='150' height='14' rx='7' fill='%23E9E8E3'/&gt;&lt;rect x='34' y='132' width='196' height='14' rx='7' fill='%23E9E8E3'/&gt;&lt;rect x='34' y='168' width='120' height='14' rx='7' fill='%23E9E8E3'/&gt;&lt;rect x='34' y='204' width='176' height='14' rx='7' fill='%23E9E8E3'/&gt;&lt;rect x='320' y='110' width='420' height='18' rx='9' fill='%23EFEEEA'/&gt;&lt;rect x='320' y='150' width='520' height='18' rx='9' fill='%23EFEEEA'/&gt;&lt;rect x='320' y='190' width='360' height='18' rx='9' fill='%23EFEEEA'/&gt;&lt;rect x='320' y='250' width='580' height='220' rx='10' fill='none' stroke='%23E5E5E5' stroke-width='2'/&gt;&lt;/svg&gt;" />
+        </div>
+        <figcaption class="mr-cap">v1 — sidebar-led</figcaption>
+        <div class="mr-sub">Dense, list-first. Too busy.</div>
+      </figure>
+
+      <!-- ── Card 2 ───────────────────────────────────────────────────────── -->
+      <figure class="mr-card">
+        <div class="mr-frame">
+          <!-- SWAP image-2: second direction mock (data-URI preferred, or /uploads URL). object-fit:cover fills the 16:9 card. -->
+          <img data-slot="image-2"
+            alt="Direction two — split canvas with a large preview pane"
+            src="data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='960' height='540' viewBox='0 0 960 540'&gt;&lt;rect width='960' height='540' fill='%23FFFFFF'/&gt;&lt;rect x='0' y='0' width='960' height='52' fill='%23FBFAF7'/&gt;&lt;line x1='0' y1='52' x2='960' y2='52' stroke='%23E5E5E5' stroke-width='1'/&gt;&lt;circle cx='28' cy='26' r='6' fill='%23E5E5E5'/&gt;&lt;circle cx='48' cy='26' r='6' fill='%23E5E5E5'/&gt;&lt;circle cx='68' cy='26' r='6' fill='%23E5E5E5'/&gt;&lt;line x1='480' y1='52' x2='480' y2='540' stroke='%23E5E5E5' stroke-width='1'/&gt;&lt;rect x='44' y='100' width='320' height='16' rx='8' fill='%23E9E8E3'/&gt;&lt;rect x='44' y='140' width='380' height='16' rx='8' fill='%23E9E8E3'/&gt;&lt;rect x='44' y='180' width='260' height='16' rx='8' fill='%23E9E8E3'/&gt;&lt;rect x='44' y='240' width='392' height='240' rx='10' fill='none' stroke='%23E5E5E5' stroke-width='2'/&gt;&lt;rect x='524' y='100' width='392' height='280' rx='10' fill='%23F0EFEA'/&gt;&lt;rect x='524' y='404' width='240' height='16' rx='8' fill='%23E9E8E3'/&gt;&lt;rect x='524' y='436' width='320' height='16' rx='8' fill='%23E9E8E3'/&gt;&lt;/svg&gt;" />
+        </div>
+        <figcaption class="mr-cap">v2 — split canvas</figcaption>
+        <div class="mr-sub">Closer. Preview felt heavy.</div>
+      </figure>
+
+      <!-- ── Card 3 — THE PICK (is-pick = the one accent moment) ──────────── -->
+      <figure class="mr-card is-pick">
+        <div class="mr-frame">
+          <!-- SWAP image-3: chosen/shipping direction mock (data-URI preferred, or /uploads URL). object-fit:cover fills the 16:9 card. -->
+          <img data-slot="image-3"
+            alt="Direction three — calm single-column spine, the shipped layout"
+            src="data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='960' height='540' viewBox='0 0 960 540'&gt;&lt;rect width='960' height='540' fill='%23FFFFFF'/&gt;&lt;rect x='0' y='0' width='960' height='52' fill='%23FBFAF7'/&gt;&lt;line x1='0' y1='52' x2='960' y2='52' stroke='%23E5E5E5' stroke-width='1'/&gt;&lt;circle cx='28' cy='26' r='6' fill='%23E5E5E5'/&gt;&lt;circle cx='48' cy='26' r='6' fill='%23E5E5E5'/&gt;&lt;circle cx='68' cy='26' r='6' fill='%23E5E5E5'/&gt;&lt;rect x='300' y='108' width='360' height='22' rx='11' fill='%23E9E8E3'/&gt;&lt;rect x='260' y='160' width='440' height='18' rx='9' fill='%23EFEEEA'/&gt;&lt;rect x='280' y='196' width='400' height='18' rx='9' fill='%23EFEEEA'/&gt;&lt;rect x='320' y='244' width='320' height='18' rx='9' fill='%233B5BDB' opacity='0.55'/&gt;&lt;rect x='240' y='320' width='480' height='150' rx='12' fill='none' stroke='%233B5BDB' stroke-width='3'/&gt;&lt;circle cx='640' cy='420' r='34' fill='none' stroke='%233B5BDB' stroke-width='3'/&gt;&lt;/svg&gt;" />
+        </div>
+        <figcaption class="mr-cap">v3 — shipping</figcaption>
+        <div class="mr-sub">One calm spine. The one we built.</div>
+      </figure>
+
+    </div>
+  </div>
+</div>

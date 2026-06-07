@@ -1,0 +1,43 @@
+<!--
+  JOB:   Screenshot frame — let the UI be the evidence. A framed product screenshot
+         on paper, with one short caption and an optional single accent callout.
+  WHEN:  "Here's what it actually looks like" — designer walkthrough, demo proof,
+         the moment the narration points at the real interface.
+  ADAPT: [SLOT] the .sf-kicker, the .sf-cap caption, and (optional) the .sf-callout
+         pill — DELETE the callout div if the narration isn't pointing at one spot.
+         IMAGE (data-slot="image-1"): swap the inline-SVG placeholder for the real
+         screenshot per the SWAP marker — replace the <img>'s src with a data-URI
+         (preferred) or a /uploads URL. Keep the .sf-frame wrapper + object-fit.
+  RULES: (1) The screenshot is the hero — it gets ~62% of the width and a thin
+             hairline frame on a tinted panel, never raw full-bleed, never a shadow.
+         (2) Exactly one accent moment: the callout pill (or, if no callout, the
+             kicker rule). Caption is dim sans. The frame stays gray.
+-->
+<div style="position:relative;width:1920px;height:1080px;background:#FBFAF7;
+  overflow:hidden;font-family:'Inter',system-ui,sans-serif;color:#1A1A1A;
+  -webkit-font-smoothing:antialiased">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&family=IBM+Plex+Serif:ital,wght@0,400;1,400&display=swap');
+  @keyframes sf-in{0%{opacity:0;transform:translateY(26px)}100%{opacity:1;transform:none}}
+  @keyframes sf-frame{0%{opacity:0;transform:scale(0.985)}100%{opacity:1;transform:none}}
+  .sf-wrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:108px 140px 96px}
+  .sf-kicker{display:flex;align-items:center;gap:20px;font-family:'Inter';font-weight:600;font-size:26px;letter-spacing:0.16em;text-transform:uppercase;color:#6B6B6B;margin-bottom:34px;animation:sf-in .5s cubic-bezier(.16,1,.3,1) .05s both}
+  .sf-kicker::before{content:"";width:60px;height:3px;background:#3B5BDB}
+  /* The framed screenshot — fixed 16:9 slot, gray hairline on a tinted panel */
+  .sf-frame{position:relative;width:1180px;aspect-ratio:16/9;background:color-mix(in srgb,#3B5BDB 5%,#FBFAF7);border:1px solid #E5E5E5;border-radius:18px;padding:18px;animation:sf-frame .6s cubic-bezier(.16,1,.3,1) .18s both}
+  .sf-frame img{width:100%;height:100%;display:block;border-radius:10px;border:1px solid #E5E5E5;object-fit:cover;object-position:top center;background:#FFFFFF}
+  /* The ONE accent callout pill — points at the spot the narration names */
+  .sf-callout{position:absolute;top:64px;right:-26px;background:#3B5BDB;color:#FFFFFF;font-family:'Inter';font-weight:600;font-size:24px;letter-spacing:0.01em;padding:14px 24px;border-radius:999px;animation:sf-in .5s cubic-bezier(.16,1,.3,1) .42s both}
+  .sf-cap{font-family:'Inter';font-weight:500;font-size:26px;color:#9A9A9A;margin-top:34px;letter-spacing:0.02em;animation:sf-in .5s cubic-bezier(.16,1,.3,1) .3s both}
+</style>
+  <div class="sf-wrap">
+    <div class="sf-kicker">The actual UI</div>
+    <figure class="sf-frame" style="margin:0">
+      <!-- SWAP image-1: the real product screenshot (data-URI preferred, or /uploads URL). Keep width/height/object-fit so it fills the 16:9 frame. -->
+      <img data-slot="image-1" alt="Ramble editor — transcript spine with a slide attached over a phrase" src="data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='1144' height='644' viewBox='0 0 1144 644'&gt;&lt;rect width='1144' height='644' fill='%23FFFFFF'/&gt;&lt;rect x='0' y='0' width='1144' height='58' fill='%23FBFAF7'/&gt;&lt;line x1='0' y1='58' x2='1144' y2='58' stroke='%23E5E5E5' stroke-width='1'/&gt;&lt;circle cx='34' cy='29' r='7' fill='%23E5E5E5'/&gt;&lt;circle cx='58' cy='29' r='7' fill='%23E5E5E5'/&gt;&lt;circle cx='82' cy='29' r='7' fill='%23E5E5E5'/&gt;&lt;rect x='420' y='18' width='304' height='22' rx='11' fill='%23F0EFEA'/&gt;&lt;rect x='0' y='58' width='300' height='586' fill='%23FBFAF7'/&gt;&lt;line x1='300' y1='58' x2='300' y2='644' stroke='%23E5E5E5' stroke-width='1'/&gt;&lt;rect x='40' y='110' width='180' height='16' rx='8' fill='%23E9E8E3'/&gt;&lt;rect x='40' y='150' width='220' height='16' rx='8' fill='%23E9E8E3'/&gt;&lt;rect x='40' y='190' width='150' height='16' rx='8' fill='%23E9E8E3'/&gt;&lt;rect x='372' y='150' width='560' height='20' rx='10' fill='%23E9E8E3'/&gt;&lt;rect x='372' y='192' width='640' height='20' rx='10' fill='%23E9E8E3'/&gt;&lt;rect x='372' y='234' width='300' height='20' rx='10' fill='%233B5BDB' opacity='0.55'/&gt;&lt;rect x='372' y='300' width='700' height='240' rx='12' fill='none' stroke='%233B5BDB' stroke-width='3'/&gt;&lt;rect x='404' y='332' width='240' height='18' rx='9' fill='%23E9E8E3'/&gt;&lt;rect x='404' y='372' width='420' height='14' rx='7' fill='%23EFEEEA'/&gt;&lt;rect x='404' y='400' width='360' height='14' rx='7' fill='%23EFEEEA'/&gt;&lt;circle cx='980' cy='470' r='44' fill='none' stroke='%233B5BDB' stroke-width='3'/&gt;&lt;/svg&gt;" />
+      <!-- The ONE accent callout — DELETE this div if the narration isn't pointing at a spot -->
+      <figcaption class="sf-callout">Slide pinned to a phrase</figcaption>
+    </figure>
+    <figcaption class="sf-cap">The editor — one transcript spine, slides hung off the words</figcaption>
+  </div>
+</div>
