@@ -6,7 +6,7 @@
     {
       "name": "ramble",
       "source": "./",
-      "description": "Ramble authoring: MCP tools + slide-authoring skill + slash commands against a local Ramble instance.",
+      "description": "Ramble authoring: MCP tools + slide-authoring skill + slash commands. Author rambles in your Ramble account from Claude Code.",
       "category": "productivity",
       "tags": ["ramble", "video", "slides", "voiceover"],
       "strict": false

@@ -1,14 +1,12 @@
 ---
-description: Health-check the Ramble plugin — backend reachability, MCP tools, and prerequisites.
-allowed-tools: Bash, mcp__ramble__ramble_list_projects
+description: Health-check the Ramble plugin — connection, auth, and MCP tools.
+allowed-tools: mcp__ramble__ramble_list_projects
 ---
 
+Verify the Ramble plugin is correctly connected. Use the **MCP tool** — NOT a shell `curl`. The plugin's host (`RAMBLE_BASE_URL`) and token live inside the MCP server process, not your shell; a `curl` in this terminal reflects your shell, not the plugin, and will mislead you (it defaults to localhost).
 
-Run a quick diagnostic of the Ramble authoring setup and report PASS/FAIL per line:
-
-1. **Backend reachable** — curl `${RAMBLE_BASE_URL:-http://localhost:3456}/api/projects` (or the app root). If it fails, tell the user to start Ramble with `npm run dev` in the ramble repo, or set `RAMBLE_BASE_URL` if their instance is elsewhere.
-2. **MCP wired** — call `ramble_list_projects`. If it errors, the MCP server didn't start: check that `node_modules` exists at the plugin root (`npm install` in the ramble repo) and that Node ≥18.
-3. **Skill present** — confirm the `ramble-slide-authoring` skill is loaded (its design.md + exemplars are what make slides on-brand).
-4. **Render path** — confirm `ramble_render` is available; it produces the finished MP4 (voiceover + slides) server-side and returns a hosted `/v/<id>` URL. ffmpeg must be on PATH for the app's render step.
-
-Keep the output to one line per check. End with the single most important next action if anything failed.
+1. Call **`ramble_list_projects`** and interpret the result:
+   - **Returns a list →** connected and authenticated. Report the project count and that the token is valid. Done.
+   - **Auth error (401 / "Invalid, expired, or revoked Ramble token") →** the token is missing or wrong. Tell the user to generate one at **ramble.video → account menu → Connect Claude Code**, then re-enter it when the plugin prompts (a fresh `/plugin install` re-prompts for it).
+   - **Connection error (ECONNREFUSED / unreachable) →** the configured backend is unreachable. The plugin ships pointed at the hosted backend; for local dev, run `npm run dev` and override `RAMBLE_BASE_URL`.
+2. Report the single most important next action.
