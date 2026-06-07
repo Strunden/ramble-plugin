@@ -1,7 +1,7 @@
 {
   "name": "ramble",
   "displayName": "Ramble Authoring",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Author Ramble videos headlessly from Claude: re-anchor script to stable word-IDs, draft on-brand HTML slides (v10 design system + exemplar library), generate AI voiceover, and produce the video — all in your Ramble account.",
   "author": {
     "name": "Frank Strunden"

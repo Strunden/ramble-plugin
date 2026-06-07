@@ -30123,6 +30123,12 @@ function generateId() {
 function generateWordId() {
   return "w_" + Math.random().toString(36).slice(2, 9);
 }
+function scriptHash(text) {
+  const s = String(text || "");
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = h * 31 + s.charCodeAt(i) | 0;
+  return String(h);
+}
 function buildSegments(scriptText, wordTimestamps, audioUrl) {
   const chunks = (scriptText || "").split(/\n{2,}/).map((c) => c.trim()).filter(Boolean);
   const ws = wordTimestamps || [];
@@ -30379,6 +30385,7 @@ server.tool(
       project.audioDuration = ttsResult.duration;
       project.wordTimestamps = (ttsResult.words || []).map((w) => ({ ...w, id: w.id || generateWordId() }));
       project.segments = buildSegments(project.scriptText, project.wordTimestamps, ttsResult.url);
+      project.audioScriptHash = scriptHash(project.scriptText);
       project.updatedAt = Date.now();
       await rambleAPI(`/api/projects/${projectId}`, {
         method: "POST",
@@ -30537,6 +30544,9 @@ server.tool(
         // A slide-clip: no media source; rendered from slideSpec by all 3 paths
         // (slide-preview.js / slide-html.js / Slide.jsx) via the 'html' layout.
         sourceType: "slide",
+        // The phrase is kept permanently so the slide can be RE-anchored when the
+        // script/audio changes (update-audio re-resolves every slide by phrase).
+        anchorPhrase: phrase || null,
         slideSpec: {
           layout: "html",
           content: { html, title: title || "" },
@@ -30609,6 +30619,7 @@ server.tool(
         project.audioDuration = tts.duration;
         project.wordTimestamps = (tts.words || []).map((w) => ({ ...w, id: w.id || generateWordId() }));
         project.segments = buildSegments(project.scriptText, project.wordTimestamps, tts.url);
+        project.audioScriptHash = scriptHash(project.scriptText);
         await rambleAPI(`/api/projects/${projectId}`, { method: "POST", body: JSON.stringify(project) });
       }
       let resolvedDeferred = 0;
@@ -30710,6 +30721,32 @@ Watch: ${watchUrl}
 Video: ${videoUrl}${coverage}`
         }]
       };
+    } catch (err) {
+      return { content: [{ type: "text", text: `Error: ${err.message}` }], isError: true };
+    }
+  }
+);
+server.tool(
+  "ramble_update_audio",
+  [
+    "Regenerate the AI voiceover for the project's CURRENT script, rebuild the word timeline + segments, and re-anchor every slide to its phrase. Call this after a major script change so the project is review-ready \u2014 the user can open it and play immediately. It does NOT render the final MP4 (use ramble_render for that).",
+    "This is the one explicit step that regenerates the (paid) voiceover; the editor view and slide placement otherwise stay current on their own."
+  ].join("\n\n"),
+  {
+    projectId: external_exports3.string().describe("The project ID (UUID)")
+  },
+  async ({ projectId }) => {
+    try {
+      const r = await rambleAPI(`/api/projects/${projectId}/update-audio`, { method: "POST", body: JSON.stringify({}) });
+      const warn = r.unmatched?.length ? `
+
+\u26A0 ${r.unmatched.length} slide phrase(s) no longer match the script and were NOT anchored: ${r.unmatched.map((p) => `"${p}"`).join(", ")}. Fix the phrase (re-create the slide with a phrase that appears verbatim in the current script).` : "";
+      return { content: [{ type: "text", text: `Audio updated for the current script.
+
+Duration: ${r.audioDuration?.toFixed?.(1)}s
+Words: ${r.words}
+Segments: ${r.segments}
+Slides re-anchored: ${r.anchored}${warn}` }] };
     } catch (err) {
       return { content: [{ type: "text", text: `Error: ${err.message}` }], isError: true };
     }
