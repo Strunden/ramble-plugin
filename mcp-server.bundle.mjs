@@ -30752,6 +30752,21 @@ Slides re-anchored: ${r.anchored}${warn}` }] };
     }
   }
 );
+server.tool(
+  "ramble_delete_project",
+  "Permanently delete a Ramble project you own. Use to clean up a test or mistaken project. This cannot be undone.",
+  {
+    projectId: external_exports3.string().describe("The project ID (UUID) to delete")
+  },
+  async ({ projectId }) => {
+    try {
+      const r = await rambleAPI(`/api/projects/${projectId}`, { method: "DELETE" });
+      return { content: [{ type: "text", text: r.deleted ? `Deleted project ${projectId}.` : `Project ${projectId} not found (nothing to delete).` }] };
+    } catch (err) {
+      return { content: [{ type: "text", text: `Error: ${err.message}` }], isError: true };
+    }
+  }
+);
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
