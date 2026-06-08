@@ -6,7 +6,7 @@
     {
       "name": "ramble",
       "source": "./",
-      "description": "Ramble authoring: MCP tools + slide-authoring skill + slash commands. Author rambles in your Ramble account from Claude Code.",
+      "description": "Ramble authoring: slide-authoring skill (v10 design system + exemplars) + slash commands. Pairs with the hosted Ramble MCP (connect once at ramble.video → Connect Claude Code) to author rambles in your account.",
       "category": "productivity",
       "tags": ["ramble", "video", "slides", "voiceover"],
       "strict": false

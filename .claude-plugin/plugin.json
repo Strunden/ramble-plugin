@@ -1,8 +1,8 @@
 {
   "name": "ramble",
   "displayName": "Ramble Authoring",
-  "version": "0.2.6",
-  "description": "Author Ramble videos headlessly from Claude: re-anchor script to stable word-IDs, draft on-brand HTML slides (v10 design system + exemplar library), generate AI voiceover, and produce the video — all in your Ramble account.",
+  "version": "0.3.0",
+  "description": "Ramble authoring for Claude Code: the slide-authoring skill (v10 design system + exemplar library) and slash commands. The ramble_* tools now come from the hosted Ramble MCP — connect it once at ramble.video → Connect Claude Code (one line or a .mcp.json, sign in with Google; no token, no bundle, no relaunch).",
   "author": {
     "name": "Frank Strunden"
   },
@@ -17,26 +17,5 @@
     "presentation"
   ],
   "skills": "./skills/",
-  "commands": "./commands/",
-  "userConfig": {
-    "ramble_token": {
-      "type": "string",
-      "title": "Ramble token",
-      "description": "Paste your token from ramble.video → account menu → Connect Claude Code. It authorizes the plugin to author rambles in your account.",
-      "sensitive": true,
-      "required": true
-    }
-  },
-  "mcpServers": {
-    "ramble": {
-      "command": "node",
-      "args": [
-        "${CLAUDE_PLUGIN_ROOT}/mcp-server.bundle.mjs"
-      ],
-      "env": {
-        "RAMBLE_BASE_URL": "https://ramble-app.fly.dev",
-        "RAMBLE_TOKEN": "${user_config.ramble_token}"
-      }
-    }
-  }
+  "commands": "./commands/"
 }
