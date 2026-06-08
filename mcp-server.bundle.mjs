@@ -30754,14 +30754,17 @@ Slides re-anchored: ${r.anchored}${warn}` }] };
 );
 server.tool(
   "ramble_delete_project",
-  "Permanently delete a Ramble project you own. Use to clean up a test or mistaken project. This cannot be undone.",
+  [
+    "Move one of YOUR projects to trash. It is RECOVERABLE \u2014 the project is soft-deleted, not erased, and can be restored from the Ramble UI; this tool can never permanently destroy data.",
+    "Use ONLY for a clearly disposable project (a test project you just created, or one the user explicitly asked to remove). NEVER trash a project the user may still want \u2014 if there is any doubt, ask the user first rather than calling this."
+  ].join("\n\n"),
   {
-    projectId: external_exports3.string().describe("The project ID (UUID) to delete")
+    projectId: external_exports3.string().describe("The project ID (UUID) to move to trash")
   },
   async ({ projectId }) => {
     try {
       const r = await rambleAPI(`/api/projects/${projectId}`, { method: "DELETE" });
-      return { content: [{ type: "text", text: r.deleted ? `Deleted project ${projectId}.` : `Project ${projectId} not found (nothing to delete).` }] };
+      return { content: [{ type: "text", text: r.trashed ? `Moved project ${projectId} to trash (recoverable from the Ramble UI).` : `Project ${projectId} not found (nothing to trash).` }] };
     } catch (err) {
       return { content: [{ type: "text", text: `Error: ${err.message}` }], isError: true };
     }
